@@ -4,12 +4,27 @@
       <div class="bg-white rounded-lg shadow mr-8">
         <div class=" px-8 py-4">
           <div class="text-gray-500 text-md mb-4">Experience</div>
-          <div class="mb-4">
-            <div class="text-gray-700 text-lg font-bold">Pheeque Company</div>
-            <div class="text-gray-400 text-sm mb-2">Team Lead | 2009 - Present</div>
-            <div class="text-gray-700 text-sm">
-              - Lead the team to build the next generation of software for a variety of businesses<br>
-              - Removed impediments from the teams work throughout the lifecycle of software
+          <div v-for="experience in experiences" :key="experience.id" class="mb-4">
+            <div class="flex justify-between">
+              <div>
+                <div class="text-gray-700 text-lg font-bold">{{ experience.company }}</div>
+                <div class="text-gray-400 text-sm mb-2">{{ experience.position }}</div>
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                aria-hidden="true"
+                role="img"
+                width="1.4em"
+                height="1.4em"
+                preserveAspectRatio="xMidYMid meet"
+                viewBox="0 0 1024 1024"
+                class="text-gray-400 cursor-pointer"
+                @click="deleteExperience(experience)"
+              ><path d="M864 256H736v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zm-200 0H360v-72h304v72z" fill="currentColor" /></svg>
+            </div>
+            <div class="text-gray-700 text-sm whitespace-pre-line">
+              {{ experience.description }}
             </div>
           </div>
         </div>
@@ -80,16 +95,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Users } from '@/types/api'
+import { mapMutations } from 'vuex'
+import { Experience, Experiences } from '../types/api'
+
 export default Vue.extend({
   layout: 'resume',
   data () {
-    const users:Users = []
-    const count:number = 9
-
     return {
-      users,
-      count,
       skills: [
         {
           name: 'PHP | Laravel',
@@ -110,21 +122,30 @@ export default Vue.extend({
       ],
     }
   },
+  computed: {
+    experiences () {
+      return this.$store.state.experiences.all
+    },
+  },
   mounted () {
-    this.get(this.count)
-    console.log('test')
+    this.fetchData()
   },
   methods: {
-    async get (count: number): Promise<void> {
-      await this.$sleep(2000)
-      this.users = (
-        await this.$axios.get('example', { params: { count } })
-      ).data.data as Users
+    ...mapMutations({
+      setExperiences: 'experiences/set',
+      removeExperience: 'experiences/remove',
+    }),
+    async fetchData (): Promise<void> {
+      this.setExperiences(
+        (await this.$axios.get('experiences')).data as Experiences,
+      )
     },
-    total (count: number): void {
-      this.users = []
-      this.count = count
-      this.get(this.count)
+    async deleteExperience (experience: Experience): Promise<void> {
+      if (!confirm('Are you sure?'))
+        return
+
+      await this.$axios.delete('experiences/' + experience.id)
+      this.removeExperience(experience.id)
     },
   },
 })

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ExperienceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,5 +18,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [Controller::class, 'routes'])
     ->name('route information')
     ->withoutMiddleware('api');
-Route::get('/example', [Controller::class, 'example'])->name('example route');
-Route::get('/error', [Controller::class, 'error'])->name('error route');
+Route::get('example', [Controller::class, 'example'])->name('example route');
+Route::get('error', [Controller::class, 'error'])->name('error route');
+
+Route::prefix('experiences')->group(function () {
+
+    Route::get('/', [ExperienceController::class, 'index']);
+
+    Route::delete('{experience}', [ExperienceController::class, 'destroy']);
+
+    Route::post('add', [ExperienceController::class, 'store']);
+
+});

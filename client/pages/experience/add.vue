@@ -19,31 +19,61 @@
             </NuxtLink>
             <div class="text-gray-700 text-lg font-bold">Add experience</div>
           </div>
-          <div>
+          <form method="post" @submit.prevent="save">
             <div class="border border-gray-200 rounded-md px-4 py-2 inline-block mb-4">
               <div class="text-gray-500 mb-1">Company</div>
-              <input type="text" name="company" class="focus:outline-none w-96 text-gray-700 font-bold">
+              <input v-model="company" type="text" name="company" class="focus:outline-none w-96 text-gray-700 font-bold">
             </div>
             <div class="border border-gray-200 rounded-md px-4 py-2 inline-block mb-4">
               <div class="text-gray-500 mb-1">Position</div>
-              <input type="text" name="position" class="focus:outline-none w-96 text-gray-700 font-bold">
+              <input v-model="position" type="text" name="position" class="focus:outline-none w-96 text-gray-700 font-bold">
             </div>
             <div class="border border-gray-200 rounded-md px-4 py-2 inline-block mb-4">
               <div class="text-gray-500 mb-1">Description</div>
-              <textarea name="company" class="focus:outline-none w-96 text-gray-700 font-bold" />
+              <textarea v-model="description" name="company" class="focus:outline-none w-96 text-gray-700 font-bold" />
             </div>
             <div>
               <button class="bg-indigo-500 text-white font-bold px-8 py-2 rounded-md">Save</button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { mapMutations } from 'vuex'
+import { Experience } from '../../types/api'
+
 export default {
   layout: 'resume',
+  data () {
+    const company: string = ''
+    const position: string = ''
+    const description: string = ''
+
+    return {
+      company,
+      position,
+      description,
+    }
+  },
+  methods: {
+    async save () {
+      this.addExperience(
+        (await this.$axios.post('experiences/add', {
+          company: this.company,
+          position: this.position,
+          description: this.description,
+        })).data as Experience,
+      )
+
+      this.$router.push('/')
+    },
+    ...mapMutations({
+      addExperience: 'experiences/add',
+    }),
+  },
 }
 </script>

@@ -27,3 +27,12 @@ export interface User {
 }
 
 export type Users = Array<User>
+
+export interface Experience {
+  id: number
+  company: string
+  position: string
+  description: string
+}
+
+export type Experiences = Experience[]
