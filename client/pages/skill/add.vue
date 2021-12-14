@@ -31,7 +31,6 @@
                 <option value="1">Intermediate</option>
                 <option value="2">Expert</option>
               </select>
-              </inputtype="text">
             </div>
             <div>
               <button class="bg-indigo-500 text-white font-bold px-8 py-2 rounded-md">Save</button>
