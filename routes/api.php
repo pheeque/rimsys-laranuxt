@@ -3,6 +3,7 @@
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
+use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,5 +40,15 @@ Route::prefix('education')->group(function () {
     Route::delete('{education}', [EducationController::class, 'destroy']);
 
     Route::post('add', [EducationController::class, 'store']);
+
+});
+
+Route::prefix('skills')->group(function () {
+
+    Route::get('/', [SkillController::class, 'index']);
+
+    Route::delete('{skill}', [SkillController::class, 'destroy']);
+
+    Route::post('add', [SkillController::class, 'store']);
 
 });
