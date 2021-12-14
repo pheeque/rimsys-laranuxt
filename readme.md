@@ -56,3 +56,6 @@ git clone git@github.com:Rimsys/laranuxt.git; cd laranuxt; yarn; composer instal
 
 ### Features
 
+### Database
+After running the database migrations, run `php artisan db:seed` from the repository root to seed the database with default data.
+

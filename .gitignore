@@ -117,3 +117,4 @@ sw.*
 .vapor/
 .env.production
 .env.staging
+.env.testing

@@ -27,3 +27,28 @@ export interface User {
 }
 
 export type Users = Array<User>
+
+export interface Experience {
+  id: number
+  company: string
+  position: string
+  description: string
+}
+
+export type Experiences = Experience[]
+
+export interface Education {
+  id: number
+  institution: string
+  year: string
+}
+
+export type AllEducation = Education[]
+
+export interface Skill {
+  id: number
+  name: string
+  level: number
+}
+
+export type Skills = Skill[]
