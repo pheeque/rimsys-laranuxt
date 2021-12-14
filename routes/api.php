@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ExperienceController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,15 @@ Route::prefix('experiences')->group(function () {
     Route::delete('{experience}', [ExperienceController::class, 'destroy']);
 
     Route::post('add', [ExperienceController::class, 'store']);
+
+});
+
+Route::prefix('education')->group(function () {
+
+    Route::get('/', [EducationController::class, 'index']);
+
+    Route::delete('{education}', [EducationController::class, 'destroy']);
+
+    Route::post('add', [EducationController::class, 'store']);
 
 });

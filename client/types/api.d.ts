@@ -36,3 +36,11 @@ export interface Experience {
 }
 
 export type Experiences = Experience[]
+
+export interface Education {
+  id: number
+  institution: string
+  year: string
+}
+
+export type AllEducation = Education[]
